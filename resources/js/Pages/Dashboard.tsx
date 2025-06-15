@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { AppSidebar } from "@/components/app-sidebar"
 import Navbar from "@/components/navbar"
 import { NavUser } from "@/components/nav-user"
@@ -16,6 +17,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { DashboardCards } from "@/components/dashboard-cards"
+import { Spinner } from "@/components/spinner"
 
 export default function Page() {
   const user = {
@@ -23,6 +25,27 @@ export default function Page() {
     email: "jauharalthaf@example.com",
     avatar: "/avatars/shadcn.jpg",
   }
+  const [loading, setLoading] = useState(true);
+  const [fade, setFade] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFade(true);
+      setTimeout(() => setLoading(false), 400); // waktu fade-out
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div
+        className={`fixed inset-0 z-50 flex items-center justify-center bg-white transition-opacity duration-500 ${fade ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+      >
+        <Spinner size={48} color="#2563eb" />
+      </div>
+    );
+  }
+
   return (
     <SidebarProvider>
       <AppSidebar />
