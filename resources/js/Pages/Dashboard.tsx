@@ -33,18 +33,31 @@ export default function Page({ barang = [] }) {
     nama_barang: "",
     nomer_barang: "",
     asal_barang: "",
+    gambar: null,
   });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    if (e.target.name === "gambar") {
+      setForm({ ...form, gambar: e.target.files[0] });
+    } else {
+      setForm({ ...form, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    router.post("/barang", form, {
+    const formData = new FormData();
+    formData.append("nama_barang", form.nama_barang);
+    formData.append("nomer_barang", form.nomer_barang);
+    formData.append("asal_barang", form.asal_barang);
+    if (form.gambar) {
+      formData.append("gambar", form.gambar);
+    }
+    router.post("/barang", formData, {
+      forceFormData: true,
       onSuccess: () => {
-        setForm({ nama_barang: "", nomer_barang: "", asal_barang: "" });
+        setForm({ nama_barang: "", nomer_barang: "", asal_barang: "", gambar: null });
         setLoading(false);
       },
       onError: () => setLoading(false),
@@ -54,7 +67,7 @@ export default function Page({ barang = [] }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setFade(true);
-      setTimeout(() => setLoading(false), 400); // waktu fade-out
+      setTimeout(() => setLoading(false), 400); 
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -98,7 +111,7 @@ export default function Page({ barang = [] }) {
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <h1 className="font-bold text-2xl mb-2">Dashboard</h1>
           <DashboardCards />
-          <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
+          <form onSubmit={handleSubmit} className="flex gap-2 mb-4" encType="multipart/form-data">
             <input
               name="nama_barang"
               value={form.nama_barang}
@@ -122,6 +135,13 @@ export default function Page({ barang = [] }) {
               placeholder="Asal Barang"
               className="border px-2 py-1 rounded"
               required
+            />
+            <input
+              type="file"
+              name="gambar"
+              accept="image/*"
+              onChange={handleChange}
+              className="border px-2 py-1 rounded"
             />
             <button type="submit" className="bg-blue-600 text-white px-4 py-1 rounded">
               Tambah

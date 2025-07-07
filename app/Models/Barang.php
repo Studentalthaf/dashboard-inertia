@@ -11,5 +11,6 @@ class Barang extends Model
         'nama_barang',
         'nomer_barang',
         'asal_barang',
+        'gambar', 
     ];
 }

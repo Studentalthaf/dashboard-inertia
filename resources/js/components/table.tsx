@@ -39,6 +39,7 @@ export type Barang = {
   nama_barang: string
   nomer_barang: string
   asal_barang: string
+  gambar?: string
 }
 
 interface DataTableProps {
@@ -48,6 +49,20 @@ interface DataTableProps {
 export function DataTable({ data }: DataTableProps) {
   const columns = React.useMemo<ColumnDef<Barang>[]>(
     () => [
+      {
+        accessorKey: "gambar",
+        header: "Gambar",
+        cell: ({ row }) =>
+          row.original.gambar ? (
+            <img
+              src={`/storage/${row.original.gambar}`}
+              alt={row.original.nama_barang}
+              style={{ width: 40, height: 40, objectFit: "cover", borderRadius: 4 }}
+            />
+          ) : (
+            <span>-</span>
+          ),
+      },
       { accessorKey: "nama_barang", header: "Nama Barang" },
       { accessorKey: "nomer_barang", header: "Nomer Barang" },
       { accessorKey: "asal_barang", header: "Asal Barang" },

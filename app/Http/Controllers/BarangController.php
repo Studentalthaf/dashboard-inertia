@@ -20,19 +20,35 @@ class BarangController extends Controller
             'nama_barang' => 'required',
             'nomer_barang' => 'required',
             'asal_barang' => 'required',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        Barang::create($request->all());
+    
+        $data = $request->all();
+    
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('gambar_barang', 'public');
+        }
+    
+        Barang::create($data);
         return redirect()->back();
     }
-
+    
     public function update(Request $request, Barang $barang)
     {
         $request->validate([
             'nama_barang' => 'required',
             'nomer_barang' => 'required',
             'asal_barang' => 'required',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        $barang->update($request->all());
+    
+        $data = $request->all();
+    
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('gambar_barang', 'public');
+        }
+    
+        $barang->update($data);
         return redirect()->back();
     }
 
