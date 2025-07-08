@@ -29,22 +29,27 @@ export default function Page({ barang = [] }) {
   }
   const [loading, setLoading] = useState(true);
   const [fade, setFade] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    nama_barang: string;
+    nomer_barang: string;
+    asal_barang: string;
+    gambar: File | null;
+  }>({
     nama_barang: "",
     nomer_barang: "",
     asal_barang: "",
     gambar: null,
   });
 
-  const handleChange = (e) => {
-    if (e.target.name === "gambar") {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name === "gambar" && e.target.files && e.target.files.length > 0) {
       setForm({ ...form, gambar: e.target.files[0] });
     } else {
       setForm({ ...form, [e.target.name]: e.target.value });
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData();
