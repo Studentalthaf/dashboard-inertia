@@ -1,3 +1,27 @@
+# Docker Development (Laravel + React Inertia)
+
+## Prasyarat
+- Docker Desktop terbaru
+
+## Menjalankan
+1. Salin env Anda jika belum ada: `cp .env.example .env`
+2. Jalankan: `docker compose up --build`
+3. Akses aplikasi:
+   - App (Nginx): http://localhost
+   - Vite HMR: http://localhost:5173
+   - MySQL: localhost:3306 (user: root, pass: root, db: althaf2)
+
+## Perintah berguna
+- Jalankan artisan: `docker compose exec php php artisan migrate`
+- Jalankan tinker: `docker compose exec php php artisan tinker`
+- Instal PHP deps: `docker compose exec php composer install`
+
+## Struktur layanan
+- php: PHP-FPM + Composer
+- nginx: Nginx reverse proxy ke PHP-FPM
+- node: Vite dev server untuk HMR
+- db: MySQL 8
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
