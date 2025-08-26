@@ -25,7 +25,7 @@ jobs:
             cd ${{ secrets.VPS_APP_PATH }}
             git fetch --all
             git reset --hard origin/main
-            docker compose pull || true
+            docker compose pull --ignore-pull-failures
             docker compose build --no-cache
             docker compose up -d
             docker compose exec -T php sh -lc "composer install --no-dev --optimize-autoloader"
@@ -34,6 +34,6 @@ jobs:
             docker compose stop node || true
             docker compose exec -T php php artisan config:cache
             docker compose exec -T php php artisan route:cache
-            docker compose restart nginx
+            docker compose restart nginx        
 
 

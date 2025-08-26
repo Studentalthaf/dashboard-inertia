@@ -53,6 +53,7 @@ jobs:
 
       - name: Install Node deps and build
         run: |
+          npm config set registry https://registry.npmjs.org/
           npm ci
           npm run build
 
