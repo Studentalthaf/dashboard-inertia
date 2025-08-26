@@ -114,7 +114,7 @@ export default function Page({ barang = [] }) {
           </div>
         </Navbar>
         <div className="flex flex-1 flex-col gap-4 p-2 sm:p-4 pt-0">
-          <h1 className="font-bold text-xl sm:text-2xl mb-2">Dashboard</h1>
+          <h1 className="font-bold text-xl sm:text-2xl mb-2">Dashboard ALTHAF CI/CD</h1>
           <DashboardCards />
           
           {/* Responsive Form */}
