@@ -1,6 +1,7 @@
 services:
   php:
     build: .
+    mem_limit: 384m
     volumes:
       - ./:/var/www
       - ./storage:/var/www/storage
@@ -17,6 +18,7 @@ services:
 
   nginx:
     image: nginx:1.27-alpine
+    mem_limit: 64m
     ports:
       - "80:80"
     volumes:
@@ -29,7 +31,8 @@ services:
   node:
     image: node:18-alpine
     working_dir: /var/www
-    command: sh -c "npm install && npm run dev"
+    command: sh -c "npm install && npm run build"
+    mem_limit: 256m
     ports:
       - "5173:5173"
     volumes:
@@ -42,6 +45,7 @@ services:
 
   db:
     image: mysql:8.0
+    mem_limit: 384m
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: althaf2
@@ -54,6 +58,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2
+    mem_limit: 64m
     restart: unless-stopped
     environment:
       PMA_HOST: db
