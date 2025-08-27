@@ -25,8 +25,10 @@ jobs:
           script: |
             set -e
             cd ${{ secrets.VPS_APP_PATH }}
-            git fetch --all
-            git reset --hard origin/main
+            echo "==== GIT FETCH & RESET ===="
+            git fetch --all || { echo 'git fetch failed'; exit 1; }
+            git reset --hard origin/main || { echo 'git reset failed'; exit 1; }
+            echo "==== DOCKER COMPOSE ===="
             docker compose pull --ignore-pull-failures
             docker compose build --no-cache
             docker compose up -d
