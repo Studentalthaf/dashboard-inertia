@@ -62,6 +62,12 @@ jobs:
           npm ci
           npm run build
 
+      - name: Clear Laravel Route Cache
+        run: php artisan route:clear
+
+      - name: List Laravel Routes
+        run: php artisan route:list
+
       - name: Prepare Laravel .env
         run: |
           cp .env.example .env
@@ -72,6 +78,7 @@ jobs:
           echo "DB_PASSWORD=root" >> .env
           echo "DB_HOST=127.0.0.1" >> .env
           echo "DB_PORT=3306" >> .env
+          echo "MAIL_MAILER=log" >> .env
 
       - name: Run migrations
         run: php artisan migrate --env=testing
